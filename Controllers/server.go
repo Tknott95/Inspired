@@ -1,15 +1,18 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
+
+	"github.com/julienschmidt/httprouter"
 
 	auth "github.com/tknott95/Inspired/Controllers/Auth"
 	globals "github.com/tknott95/Inspired/Globals"
 )
 
 func main() {
-	http.HandleFunc("/", auth.AuthLogin)
-	fmt.Println("Hello, Trevsauce!")
-	http.ListenAndServe(":"+globals.PortNumber, nil)
+
+	println("Server running on port: ", globals.PortNumber)
+	mux := httprouter.New()
+	mux.GET("/", auth.AuthLogin)
+	http.ListenAndServe(":"+globals.PortNumber, mux)
 }
